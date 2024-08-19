@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Log;
 class Round1Controller extends Controller
 {
     protected $round1Service;
-
     protected $applicantService;
 
     public function __construct(Round1Service $round1Service, ApplicantService $applicantService)
@@ -60,6 +59,7 @@ class Round1Controller extends Controller
         $round1 = $this->round1Service->createRound1($round1Data);
         Log::info('Round1 created:', ['round1_id' => $round1->id]);
         event(new ApplicantCreated($applicant));
+       // return response()->json($round1);
 
         return response()->json([
             'message' => 'Round 1 created successfully',
@@ -73,25 +73,29 @@ class Round1Controller extends Controller
         $round1 = $this->round1Service->getRound1ById($id);
         $applicant_id = $round1->applicant_id;
         $applicant = $this->applicantService->getApplicantById($applicant_id);
-        return response()->json($round1);
-        // return response()->json([
-        //     'round1' => $round1,
-        //     'applicant' => $applicant,
-        // ], 201);
+        //return response()->json($round1);
+        return response()->json([
+            'round1' => $round1,
+            'applicant' => $applicant,
+        ], 201);
     }
-
     public function update(ApplicantRequest $applicantRequest, Round1Request $round1Request, int $id)
     {
-        $applicant = $this->applicantService->updateApplicant($id, $applicantRequest->validated());
+        // Get the Round1 record and associated Applicant ID
+        $round1 = $this->round1Service->getRound1ById($id);
+        $applicant_id = $round1->applicant_id;
+        // Update the Applicant using the ID
+        $applicant = $this->applicantService->updateApplicant($applicant_id, $applicantRequest->validated());
+        // Update the Round1 record
         $round1 = $this->round1Service->updateRound1($id, $round1Request->validated());
-
         return response()->json([
             'message' => 'Round 1 updated successfully',
             'round1' => $round1,
             'applicant' => $applicant,
         ], 200);
     }
-
+    
+   
     public function destroy(int $id)
     {
         $this->round1Service->deleteRound1($id);

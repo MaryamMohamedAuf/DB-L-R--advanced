@@ -34,7 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('round1/{id}', [Round1Controller::class, 'show']);
     Route::delete('round1/{id}', [Round1Controller::class, 'destroy']);
 
-    Route::put('/round2/{id}', [Round2Controller::class, 'update']);
+    Route::put('round2/{id}', [Round2Controller::class, 'update']);
     Route::get('round2/{id}', [Round2Controller::class, 'show']);
     Route::delete('round2/{id}', [Round2Controller::class, 'destroy']);
 

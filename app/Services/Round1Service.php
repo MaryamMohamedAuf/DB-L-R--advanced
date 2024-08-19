@@ -19,8 +19,8 @@ class Round1Service
      */
     public function getRound1ById(int $id): Round1
     {
-        return Round1::with('applicant')
-        ->findOrFail($id);
+        return Round1::with('applicant')->findOrFail($id);
+       //return Round1::findOrFail($id);
     }
 
     /**

@@ -23,6 +23,7 @@ class ApplicantService
      */
     public function getApplicantById(int $id): Applicant
     {
+       // return Applicant::find($id);
         // The -> operator is used to access methods and properties of an instance (object) of a class.
         return Applicant::with(['round1', 'round2', 'round3'])->findOrFail($id);
     }
@@ -54,8 +55,7 @@ class ApplicantService
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getAllApplicants()
-    {
-        
+    {   
         //return Applicant::with(['round1', 'round2', 'round3'])->get();
         return Applicant::all();
     }
