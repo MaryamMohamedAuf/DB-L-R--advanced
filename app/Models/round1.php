@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Round1 extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'applicant_id',
         'cohort_id',

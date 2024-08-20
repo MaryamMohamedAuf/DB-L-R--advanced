@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Events\ApplicantCreated;
 use App\Http\Requests\ApplicantRequest;
 use App\Http\Requests\Round1Request;
