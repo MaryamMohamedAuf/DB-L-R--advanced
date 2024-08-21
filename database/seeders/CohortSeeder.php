@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Cohort;
 use Illuminate\Database\Seeder;
 
+
 class CohortSeeder extends Seeder
 {
     /**
@@ -15,6 +16,6 @@ class CohortSeeder extends Seeder
     public function run()
     {
         // Create 10 cohorts
-        Cohort::factory()->count(2)->create();
+        Cohort::factory()->count(1)->create();
     }
 }

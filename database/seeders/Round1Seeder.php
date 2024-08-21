@@ -14,7 +14,7 @@ class Round1Seeder extends Seeder
     public function run()
     {
         // Seed the database with 10 round1 records
-        Round1::factory()->count(10)->create();
+        Round1::factory()->count(5)->create();
         // ->each(function ($round1) {
         //     $round1->update([
         //         'how_did_you_hear_about_us' => implode(',', $round1->how_did_you_hear_about_us ?? []),

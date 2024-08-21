@@ -16,7 +16,7 @@ class Round2Factory extends Factory
         $lastCohortId = Cohort::latest('id')->value('id');
 
         return [
-            'applicant_id' => Applicant::factory(), // Create a new Applicant and use its ID
+            'applicant_id' => Applicant::inRandomOrder()->first()->id, // Create a new Applicant and use its ID
             'cohort_id' => $lastCohortId, // Use the last cohort id
             'phone' => $this->faker->phoneNumber,
             'One_Sentence_Description' => $this->faker->sentence,

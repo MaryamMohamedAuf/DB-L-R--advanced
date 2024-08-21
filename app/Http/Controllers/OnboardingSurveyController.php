@@ -71,8 +71,8 @@ class OnboardingSurveyController extends Controller
 
     public function update(SurveyRequest $request2, OnboardingSurveyRequest $request, int $id)
     {
-        $survey = $this->surveyService->updateSurvey($id, $request2->validated());
         $onboardingSurvey = $this->onboardingSurveyService->updateOnboardingSurvey($id, $request->validated());
+        $survey = $this->surveyService->updateSurvey($onboardingSurvey->survey_id, $request2->validated());
 
         return response()->json([
             'message' => 'Onboarding survey updated successfully',

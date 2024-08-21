@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Requests;
+use Illuminate\Support\Facades\Log;
 
 use App\Models\Cohort;
 use Illuminate\Foundation\Http\FormRequest;
@@ -22,6 +23,8 @@ class ApplicantRequest extends FormRequest
 
         // If no cohort is found, you may want to handle this, perhaps by throwing an exception.
         if (! $lastCohort) {
+            Log::error('No cohort found when preparing for validation.');
+
             abort(400, 'No cohort found');
         }
 

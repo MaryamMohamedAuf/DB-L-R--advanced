@@ -81,8 +81,8 @@ class FollowupSurveyController extends Controller
 
     public function update(SurveyRequest $request2, FollowupSurveyRequest $request, int $id)
     {
-        $survey = $this->surveyService->updateSurvey($id, $request2->validated());
         $followupSurvey = $this->followupSurveyService->updateFollowupSurvey($id, $request->validated());
+        $survey = $this->surveyService->updateSurvey($followupSurvey->survey_id, $request2->validated());
 
         return response()->json([
             'message' => 'Follow-up survey updated successfully',

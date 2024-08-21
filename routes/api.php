@@ -24,7 +24,7 @@ Route::post('round2/create', [Round2Controller::class, 'store']);
 Route::post('followupSurvey/create', [FollowupSurveyController::class, 'store']);
 Route::post('onboardingSurvey/create', [OnboardingSurveyController::class, 'store']);
 
-Route::middleware('auth:sanctum')->group(function () {
+//Route::middleware('auth:sanctum')->group(function () {
     Route::put('/admin/edit/{id}', [RegisteredUserController::class, 'update']);
     Route::get('/admin/{id}', [RegisteredUserController::class, 'show']);
     Route::get('/admins', [RegisteredUserController::class, 'index']);
@@ -57,7 +57,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('cohorts', CohortController::class);
     Route::resource('comments', CommentController::class);
 
-    Route::resource('applicants', ApplicantController::class);
+    Route::apiResource('applicants', ApplicantController::class);
     Route::resource('surveys', SurveyController::class);
     Route::resource('round3', Round3Controller::class);
 
@@ -75,6 +75,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/applicants/filter', [ApplicantController::class, 'filter']);
     Route::get('/filter-options', [ApplicantController::class, 'getFilterOptions']);
 
-
-});
+//});
 //Route::post('/google-form-response', [GoogleFormController::class,'handleResponse']);

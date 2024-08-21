@@ -2,19 +2,12 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 
-use App\Http\Requests\applicant as RequestsApplicant;
 use App\Http\Requests\ApplicantRequest;
-use App\Http\Requests\Round2Request;
-use App\Http\Requests\Round3Request;
 
 use App\Http\Requests\FilterApplicantRequest;
-use App\Http\Requests;
-use App\Models\Applicant;
-use App\Models\round2;
-use App\Models\round3;
 use App\Services\ApplicantService;
-use Illuminate\Http\Request;
 
 class ApplicantController extends Controller
 {
@@ -34,7 +27,6 @@ class ApplicantController extends Controller
         // Get validated data from the request
         $validatedFilters = $request->validated();
         $searchTerm = $validatedFilters['search'] ?? null;
-    $searchTerm = $validatedFilters['search'] ?? null;
 
         // Use the validated data to filter applicants
         $applicants = $this->applicantService->filterApplicants($validatedFilters, $searchTerm);
@@ -55,17 +47,10 @@ class ApplicantController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(ApplicantRequest $request)
+    public function index()
 {
-    try {
-        $validatedData = $request->validated();
-        Log::info('Applicant Request Data:', $validatedData);
-        $applicant = $this->applicantService->getAllApplicants($validatedData);
-        return response()->json($applicant);
-    } catch (\Exception $e) {
-        Log::error('Error fetching applicants:', ['exception' => $e]);
-        return response()->json(['error' => 'Unable to fetch applicants'], 500);
-    }
+    $applicant = $this->applicantService->getAllApplicants();
+    return response()->json($applicant);
 }
 
     

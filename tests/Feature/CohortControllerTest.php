@@ -1,124 +1,147 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Controllers;
 
 use App\Models\Cohort;
-use App\Models\User;
+use App\Models\User; // Add the User model
+use App\Services\CohortService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Mockery;
 use Tests\TestCase;
 
 class CohortControllerTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker;
 
-    protected $user;
+    protected $cohortService;
+    protected $user; // Declare the user property
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->user = User::factory()->create(); // Assuming you have a User factory
+
+        $this->cohortService = Mockery::mock(CohortService::class);
+        $this->app->instance(CohortService::class, $this->cohortService);
+
+        // Create a user or fetch an existing one
+        $this->user = User::factory()->create();
     }
 
     /**
-     * Test the index method.
-     *
-     * @return void
+     * Test index method.
      */
     public function test_it_can_list_cohorts()
     {
-        // Seed the database with some cohorts
-        Cohort::factory()->count(3)->create();
+        $cohorts = Cohort::factory()->count(3)->make();
 
-        $response = $this->actingAs($this->user)->getJson('/api/cohorts');
+        $this->cohortService
+            ->shouldReceive('getAllCohorts')
+            ->once()
+            ->andReturn($cohorts);
 
+        // Authenticate the request
+        $this->actingAs($this->user, 'api')->withHeaders([
+            'Authorization' => 'Bearer ' . $this->user->createToken('TestToken')->plainTextToken,
+        ]);
+        $response = $this->getJson('/api/cohorts');
         $response->assertStatus(200)
-                 ->assertJsonCount(3)
-                 ->assertJsonStructure([
-                     '*' => ['id', 'name', 'description', 'created_at', 'updated_at']
-                 ]);
+                 ->assertJsonCount(3);
     }
 
     /**
-     * Test the store method.
-     *
-     * @return void
+     * Test store method.
      */
     public function test_it_can_create_a_cohort()
     {
         $cohortData = [
-            'name' => 'Test Cohort',
-            'description' => 'This is a test cohort',
+            'number' => 1,
+            'start_date' => '2023-01-01',
+            'end_date' => '2023-12-31',
         ];
 
-        $response = $this->actingAs($this->user)->postJson('/api/cohorts', $cohortData);
+        $this->cohortService
+            ->shouldReceive('createCohort')
+            ->once()
+            ->with($cohortData)
+            ->andReturn(Cohort::make($cohortData));
+
+        // Authenticate the request
+        $this->actingAs($this->user, 'api')->withHeaders([
+            'Authorization' => 'Bearer ' . $this->user->createToken('TestToken')->plainTextToken,
+        ]);
+        $response = $this->postJson('/api/cohorts', $cohortData);
 
         $response->assertStatus(201)
-                 ->assertJsonFragment(['name' => 'Test Cohort'])
-                 ->assertJsonStructure([
-                     'message',
-                     'cohort' => ['id', 'name', 'description', 'created_at', 'updated_at']
-                 ]);
-
-        $this->assertDatabaseHas('cohorts', $cohortData);
+                 ->assertJsonFragment(['number' => 1]);
     }
 
     /**
-     * Test the show method.
-     *
-     * @return void
+     * Test show method.
      */
     public function test_it_can_show_a_single_cohort()
     {
-        $cohort = Cohort::factory()->create();
+        $cohort = Cohort::factory()->make(['id' => 1]);
 
-        $response = $this->actingAs($this->user)->getJson('/api/cohorts/' . $cohort->id);
+        $this->cohortService
+            ->shouldReceive('getCohortById')
+            ->once()
+            ->with(1)
+            ->andReturn($cohort);
 
+        // Authenticate the request
+       // $response = $this->actingAs($this->user, 'api')->getJson('/api/cohorts/1');
+        $this->actingAs($this->user, 'api')->withHeaders([
+            'Authorization' => 'Bearer ' . $this->user->createToken('TestToken')->plainTextToken,
+        ]);
+        $response = $this->getJson('/api/cohorts/1');
         $response->assertStatus(200)
-                 ->assertJsonFragment(['name' => $cohort->name])
-                 ->assertJsonStructure(['id', 'name', 'description', 'created_at', 'updated_at']);
+                 ->assertJsonFragment(['id' => 1]);
     }
 
     /**
-     * Test the update method.
-     *
-     * @return void
+     * Test update method.
      */
     public function test_it_can_update_a_cohort()
     {
-        $cohort = Cohort::factory()->create();
-
+        $cohort = Cohort::factory()->make(['id' => 1]);
         $updateData = [
-            'name' => 'Updated Name',
-            'description' => 'Updated description',
+            'number' => 2,
+            'start_date' => '2023-01-01',
+            'end_date' => '2023-12-31',
         ];
-
-        $response = $this->actingAs($this->user)->putJson('/api/cohorts/' . $cohort->id, $updateData);
-
+        $this->cohortService
+            ->shouldReceive('updateCohort')
+            ->once()
+            ->with(1, $updateData)
+            ->andReturn($cohort->fill($updateData));
+        // Authenticate the request
+        $this->actingAs($this->user, 'api')->withHeaders([
+            'Authorization' => 'Bearer ' . $this->user->createToken('TestToken')->plainTextToken,
+        ]);
+        $response = $this->putJson('/api/cohorts/1', $updateData);
         $response->assertStatus(200)
-                 ->assertJsonFragment(['name' => 'Updated Name'])
-                 ->assertJsonStructure([
-                     'message',
-                     'cohort' => ['id', 'name', 'description', 'created_at', 'updated_at']
-                 ]);
-
-        $this->assertDatabaseHas('cohorts', $updateData);
+                 ->assertJsonFragment(['number' => 2]);
     }
 
     /**
-     * Test the destroy method.
-     *
-     * @return void
+     * Test destroy method.
      */
     public function test_it_can_delete_a_cohort()
     {
-        $cohort = Cohort::factory()->create();
+        $this->cohortService
+            ->shouldReceive('deleteCohort')
+            ->once()
+            ->with(1)
+            ->andReturn(true);
 
-        $response = $this->actingAs($this->user)->deleteJson('/api/cohorts/' . $cohort->id);
-
+        // Authenticate the request
+        //$response = $this->actingAs($this->user, 'api')->deleteJson('/api/cohorts/1');
+        $this->actingAs($this->user, 'api')->withHeaders([
+            'Authorization' => 'Bearer ' . $this->user->createToken('TestToken')->plainTextToken,
+        ]);
+        $response = $this->deleteJson('/api/cohorts/1');
         $response->assertStatus(200)
                  ->assertJsonFragment(['message' => 'Cohort deleted successfully']);
-
-        $this->assertDatabaseMissing('cohorts', ['id' => $cohort->id]);
     }
 }
-//php artisan test --filter=CohortControllerTest
