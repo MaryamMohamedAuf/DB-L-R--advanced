@@ -24,7 +24,7 @@ Route::post('round2/create', [Round2Controller::class, 'store']);
 Route::post('followupSurvey/create', [FollowupSurveyController::class, 'store']);
 Route::post('onboardingSurvey/create', [OnboardingSurveyController::class, 'store']);
 
-//Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:sanctum')->group(function () {
     Route::put('/admin/edit/{id}', [RegisteredUserController::class, 'update']);
     Route::get('/admin/{id}', [RegisteredUserController::class, 'show']);
     Route::get('/admins', [RegisteredUserController::class, 'index']);
@@ -69,11 +69,11 @@ Route::post('onboardingSurvey/create', [OnboardingSurveyController::class, 'stor
 
     Route::get('/applicant/details/{id}', [ApplicantController::class, 'show']);
 
-    Route::post('/comments/{applicant_id}/{round_id}/{round_type}', [CommentController::class, 'store']);
+    Route::post('/comments/{applicant_id}/{round_id}/{round_type}', [CommentController::class, 'store'])->middleware('auth');
 
     Route::get('/comments/applicant/{id}', [CommentController::class, 'getCommentsByApplicant']);
     Route::post('/applicants/filter', [ApplicantController::class, 'filter']);
     Route::get('/filter-options', [ApplicantController::class, 'getFilterOptions']);
 
-//});
+});
 //Route::post('/google-form-response', [GoogleFormController::class,'handleResponse']);

@@ -25,6 +25,13 @@ class CommentRequest extends FormRequest
             'feedback' => 'nullable|string',
             'decision' => 'nullable|in:accepted,rejected',
             'user_id' => 'required|integer',
+            'cohort_id' => 'required|integer',
+            'applicant_id'=> 'required|integer',
+            'round1_id'=> 'nullable|integer',
+            'round2_id'=> 'nullable|integer',
+            'round3_id'=> 'nullable|integer',
+            'round_type'=> 'required|string'
+
         ];
     }
 }

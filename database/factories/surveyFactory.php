@@ -27,12 +27,10 @@ class SurveyFactory extends Factory
         // Get the last cohort id
        // $cohort = Cohort::inRandomOrder()->first();
         $lastCohortId = Cohort::latest('id')->value('id');
-
         if (!$lastCohortId) {
             $lastCohortId = Cohort::factory()->create();
         }
         $applicant = Applicant::inRandomOrder()->first();
-        
         if (!$applicant) {
             $applicant = Applicant::factory()->create();
         }

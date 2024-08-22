@@ -21,14 +21,12 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call(UserSeeder::class);
-
        $this->call(CohortSeeder::class);
-               //$this->call(ApplicantSeeder::class);
-
+     //$this->call(ApplicantSeeder::class);
         $this->call(Round1Seeder::class);
         $this->call(Round2Seeder::class);
         $this->call(Round3Seeder::class);
-        $this->call(SurveySeeder::class);
+        //$this->call(SurveySeeder::class);
         $this->call(FollowupSurveySeeder::class);
         $this->call(OnboardingSurveySeeder::class);
         $this->call(CommentSeeder::class);

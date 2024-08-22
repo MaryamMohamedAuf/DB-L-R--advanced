@@ -27,6 +27,8 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
+            //::: This is the scope resolution operator, which is used to access static properties or methods of a class.
+           //static: This is a keyword in PHP that refers to the current class. It's used to access static properties or methods of the class.
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];

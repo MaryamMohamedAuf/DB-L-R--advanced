@@ -56,8 +56,8 @@ class ApplicantService
      */
     public function getAllApplicants()
     {   
-        return Applicant::with(['round1', 'round2', 'round3'])->get();
-        //return Applicant::all();
+       return Applicant::with(['round1', 'round2', 'round3'])->get();
+       // return Applicant::all();
     }
 
 

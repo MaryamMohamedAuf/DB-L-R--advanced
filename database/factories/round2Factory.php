@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Applicant;
+use App\Models\Round1;
+use App\Models\Round2;
+
 use App\Models\Cohort;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -14,9 +16,16 @@ class Round2Factory extends Factory
     {
         // Get the last cohort id
         $lastCohortId = Cohort::latest('id')->value('id');
+        if (!$lastCohortId) {
+            $lastCohortId = Cohort::factory()->create();
+        }
+        $applicant = Round1::inRandomOrder()->first();
+        if (!$applicant) {
+            $applicant = Round1::factory()->create();
+        }
 
         return [
-            'applicant_id' => Applicant::inRandomOrder()->first()->id, // Create a new Applicant and use its ID
+            'applicant_id' => $applicant->applicant_id,
             'cohort_id' => $lastCohortId, // Use the last cohort id
             'phone' => $this->faker->phoneNumber,
             'One_Sentence_Description' => $this->faker->sentence,
@@ -52,8 +61,8 @@ class Round2Factory extends Factory
             'holding_back_growth_reason' => $this->faker->optional()->word,
             'other_comments' => $this->faker->optional()->sentence,
             'race_ethnicity' => $this->faker->optional()->randomElement(['Asian', 'Black', 'Hispanic', 'White', 'Other']),
-            'gender' => $this->faker->optional()->randomElement(['Male', 'Female', 'Non-binary', 'Prefer not to say']),
-            'team_identifiers' => $this->faker->optional()->randomElement(['Veteran', 'LGBTQ+', 'Immigrant', 'First-time founder']),
+            'gender' => $this->faker->optional()->randomElement(['Male', 'Female', 'Male', 'Prefer not to say']),
+            'team_identifiers' => $this->faker->optional()->randomElement(['Veteran', 'Immigrant', 'First-time founder']),
             'if_other_team_identifiers' => $this->faker->optional()->word,
         ];
     }

@@ -23,7 +23,9 @@ class ApplicantFactory extends Factory
     public function definition()
     {
         $lastCohortId = Cohort::latest('id')->value('id');
-
+        if (!$lastCohortId) {
+            $lastCohortId = Cohort::factory()->create();
+        }
         return [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),

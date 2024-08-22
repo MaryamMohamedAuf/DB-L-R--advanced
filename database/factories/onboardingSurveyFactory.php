@@ -26,7 +26,9 @@ class OnboardingSurveyFactory extends Factory
         // Get the last cohort id
         $lastCohortId = Cohort::latest('id')->value('id');
         // Get a random survey id
-
+        if (!$lastCohortId) {
+            $lastCohortId = Cohort::factory()->create();
+        }
         return [
             'survey_id' => Survey::factory()->create()->id, // Create a new Survey and use its ID
             'cohort_id' => $lastCohortId, // Use the last cohort id

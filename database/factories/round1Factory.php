@@ -13,7 +13,9 @@ class Round1Factory extends Factory
     {
         // Get the last cohort id
         $lastCohortId = Cohort::latest('id')->value('id');
-
+        if (!$lastCohortId) {
+            $lastCohortId = Cohort::factory()->create();
+        }
         return [
             'applicant_id' => Applicant::factory()->create()->id,
             'cohort_id' => $lastCohortId,
@@ -47,7 +49,8 @@ class Round1Factory extends Factory
             ]),
             'previous_accelerator_places' => $this->faker->optional()->company,
             'If_Yes_please_indicate_ALL_the_PREVIOUS_places' => $this->faker->optional()->sentence,
-            'funding_received' => implode(',', $this->faker->randomElements(['Angel', 'VC', 'Grant', 'Friends and Family', 'None'], 2, false) ?? []),
+           //implode(',', ...): This is a PHP function that takes an array of elements and concatenates them into a single string, using a separator (in this case, a comma ,).
+            'funding_received' => implode(',', $this->faker->randomElements(['No Funding', 'Self-Funded', 'Grant', 'Family & Friends','Crowdfund','Bank Loan','Angel Investor','Venture Capital Fund','Accelerator', 'Other'], 2, false) ?? []),
             'amount_funding_raised' => $this->faker->randomElement(['0-50k', '50k-100k', '100k-500k', '500k-1M', '1M+']),
             'revenue_generated' => $this->faker->randomElement(['0-50k', '50k-100k', '100k-500k', '500k-1M', '1M+']),
             'covid_impact' => $this->faker->randomElement([
@@ -61,9 +64,9 @@ class Round1Factory extends Factory
             'biggest_challenge' => $this->faker->paragraph,
             'how_did_you_hear_about_us' => implode(',', $this->faker->randomElements(['Social Media', 'Friend', 'Website', 'Email', 'Other'], 2, false) ?? []),
             'race_ethnicity' => implode(',', $this->faker->optional()->randomElements(['Asian', 'Black', 'Hispanic', 'White', 'Other'], 2, false) ?? []),
-            'gender' => implode(',', $this->faker->optional()->randomElements(['Male', 'Female', 'Non-binary', 'Prefer not to say'], 1, false) ?? []),
+            'gender' => implode(',', $this->faker->optional()->randomElements(['Male', 'Female','Prefer not to say'], 1, false) ?? []),
             'additional_demographics' => $this->faker->optional()->sentence,
-            'team_identifiers' => implode(',', $this->faker->optional()->randomElements(['Veteran', 'LGBTQ+', 'Immigrant', 'First-time founder'], 2, false) ?? []),
+            'team_identifiers' => implode(',', $this->faker->optional()->randomElements(['Veteran', 'Immigrant', 'First-time founder'], 2, false) ?? []),
         ];
     }
 }
