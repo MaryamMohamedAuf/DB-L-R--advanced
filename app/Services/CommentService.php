@@ -40,7 +40,6 @@ class CommentService
 
             $data['user_id'] = $$user->id;
             $data['cohort_id'] = $applicant->cohort_id;
-
             switch ($round_type) {
                 case 'round1':
                     $data['round1_id'] = $round_id;
