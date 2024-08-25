@@ -19,12 +19,14 @@ Route::get('/cohorts/index', [CohortController::class, 'index'])->name('cohorts.
 Route::post('/register', [RegisteredUserController::class, 'store'])->middleware('guest')->name('register');
 
 Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+
 Route::post('round1/create', [Round1Controller::class, 'store']);
 Route::post('round2/create', [Round2Controller::class, 'store']);
 Route::post('followupSurvey/create', [FollowupSurveyController::class, 'store']);
 Route::post('onboardingSurvey/create', [OnboardingSurveyController::class, 'store']);
 
 Route::middleware('auth:sanctum')->group(function () {
+
     Route::put('/admin/edit/{id}', [RegisteredUserController::class, 'update']);
     Route::get('/admin/{id}', [RegisteredUserController::class, 'show']);
     Route::get('/admins', [RegisteredUserController::class, 'index']);

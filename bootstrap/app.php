@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -22,14 +22,12 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->api(append: [
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            //'throttle:api',
+            'throttle:api',
             //The throttle middleware is used for rate limiting,
             //which controls how many requests a user can make to the API within a specified time frame.
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            // \App\Http\Middleware\VerifyCsrfToken::class,
-
         ]);
 
         $middleware->validateCsrfTokens(except: [
