@@ -5,9 +5,9 @@ phases:
     commands:
       - composer install
 
-  build:
-    commands:
-      - php artisan db:seed
+  # build:
+  #   commands:
+  #     - php artisan db:seed
 
 cache:
   paths:
