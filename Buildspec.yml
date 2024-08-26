@@ -1,0 +1,14 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - composer install
+
+  build:
+    commands:
+      - php artisan db:seed
+
+cache:
+  paths:
+    - 'vendor/**/*'
