@@ -34,7 +34,6 @@ class CommentController extends Controller
             return response()->json(['message' => 'Error fetching comments by applicant'], 500);
         }
     }
-
     public function store0(CommentRequest $request, $applicant_id, $round_id, $round_type)
     {
         try {
