@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CohortRequest;
-use App\Models\Cohort;
 use App\Services\CohortService;
 
 class CohortController extends Controller
