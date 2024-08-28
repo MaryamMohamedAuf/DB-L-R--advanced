@@ -77,4 +77,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/filter-options', [ApplicantController::class, 'getFilterOptions']);
 
 });
-//Route::post('/google-form-response', [GoogleFormController::class,'handleResponse']);
+Route::post('/google-form-response', [GoogleFormController::class,'handleResponse']);
