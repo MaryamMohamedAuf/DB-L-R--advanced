@@ -23,6 +23,6 @@ jobs:
       # - name: Clear Laravel Cache
       #   run: php artisan optimize:clear
       - name: Deploy Environment
-        run: vapor deploy --env=production --no-interaction --no-cache
+        run: vapor deploy production --no-interaction --no-cache
         env:
           VAPOR_API_TOKEN: ${{ secrets.VAPOR_API_TOKEN }}
