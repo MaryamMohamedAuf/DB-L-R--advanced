@@ -20,8 +20,8 @@ jobs:
         run: composer global require laravel/vapor-cli
       - name: Install Project Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
-      - name: Clear Laravel Cache
-        run: php artisan optimize:clear
+      # - name: Clear Laravel Cache
+      #   run: php artisan optimize:clear
       - name: Deploy Environment
         run: vapor deploy --env=production --no-interaction --no-cache
         env:
