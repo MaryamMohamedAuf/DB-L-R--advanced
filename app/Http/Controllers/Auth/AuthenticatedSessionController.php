@@ -34,13 +34,11 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
         $user = Auth::user();
         //$tokenName = $request->input('token_name', 'default-token');
-
         // $token = $user->createToken($tokenName)->plainTextToken;
         $userId = $user->id;
         //dd($tokenName);
         $token = $request->user()->createToken($request->token_name);
-
-        // return ['token' => $token->plainTextToken && $userId];
+         //return ['token' => $token->plainTextToken && $userId];
         return response()->json([
             'message' => 'Logged in successfully',
             'token' => $token->plainTextToken,

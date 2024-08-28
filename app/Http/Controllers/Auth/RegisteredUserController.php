@@ -35,7 +35,7 @@ class RegisteredUserController extends Controller
         $user->notify(new NewAdminNotification($user));
 
         return response()->json(['message' => 'User registered successfully.']);
-        //  return redirect(route('dashboard', absolute: false));
+        //return redirect(route('dashboard', absolute: false));
     }
 
     public function update(Request $request, $id)
