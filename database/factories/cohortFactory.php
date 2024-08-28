@@ -8,7 +8,7 @@ use App\Models\Cohort;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Cohort>
  */
-class cohortFactory extends Factory
+class CohortFactory extends Factory
 {
     protected $model = Cohort::class;
 

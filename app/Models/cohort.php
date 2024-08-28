@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class cohort extends Model
+class Cohort extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
