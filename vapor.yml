@@ -4,10 +4,11 @@ environments:
     production:
         memory: 1024
         cli-memory: 512
-        runtime: 'php-8.3:al2'
+        runtime: 'php-8.2'
         database: 'dblr'
         build:
             - 'composer install --no-dev'
+            - 'php artisan optimize:clear' # Clear any cached configurations
             - 'php artisan event:cache'
             # - 'npm ci && npm run build && rm -rf node_modules'
         deploy:
