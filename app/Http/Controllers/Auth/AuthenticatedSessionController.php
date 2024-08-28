@@ -43,7 +43,7 @@ class AuthenticatedSessionController extends Controller
         // return ['token' => $token->plainTextToken && $userId];
         return response()->json([
             'message' => 'Logged in successfully',
-            'token' => $token->plainTextToken && $userId,
+            'token' => $token->plainTextToken,
             'userId' => $userId,
         ]);
     }
